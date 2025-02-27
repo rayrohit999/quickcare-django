@@ -1,9 +1,83 @@
 {% extends "home/base.html" %}
 {% block content %}
-<h2>Complete Your Hospital Profile</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save Profile</button>
-</form>
+
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow p-4" style="width: 600px;">
+        <h2 class="text-center mb-3">Complete Your Hospital Profile</h2>
+
+        <form method="post" class="needs-validation">
+            {% csrf_token %}
+
+            <!-- Display Form Errors -->
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <strong>Error:</strong> {{form.errors}}
+                </div>
+            {% endif %}
+
+            <div class="mb-3">
+                <label for="{{ form.hospital_name.id_for_label }}" class="form-label">Hospital Name</label>
+                {{ form.hospital_name }}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.registration_number.id_for_label }}" class="form-label">Registration Number</label>
+                {{ form.registration_number }}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.phone_number.id_for_label }}" class="form-label">Phone Number</label>
+                {{ form.phone_number }}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.address.id_for_label }}" class="form-label">Address</label>
+                {{ form.address }}
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="{{ form.city.id_for_label }}" class="form-label">City</label>
+                    {{ form.city }}
+                </div>
+                <div class="col-md-6">
+                    <label for="{{ form.state.id_for_label }}" class="form-label">State</label>
+                    {{ form.state }}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.zip_code.id_for_label }}" class="form-label">Zip Code</label>
+                {{ form.zip_code }}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.specialization.id_for_label }}" class="form-label">Specialization</label>
+                {{ form.specialization }}
+            </div>
+
+            <div class="mb-3 form-check">
+                {{ form.emergency_services }}
+                <label for="{{ form.emergency_services.id_for_label }}" class="form-check-label">Provide Emergency Services?</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Save Profile</button>
+        </form>
+    </div>
+</div>
+
+<!-- Add Bootstrap CSS -->
+<style>
+    input, textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .card {
+        border-radius: 10px;
+    }
+</style>
+
 {% endblock %}
