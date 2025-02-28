@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import login,authenticate
-from .forms import CustomUserCreationForm,PatientProfileForm,HospitalProfileForm
+from .forms import CustomUserCreationForm,PatientProfileForm,HospitalProfileForm,LoginForm
 from .models import CustomUser,PatientProfile,HospitalProfile
+from django.contrib import messages
 
 #registeration of patient
 def register_patient(request):
@@ -39,7 +40,7 @@ def complete_patient_profile(request):
         form= PatientProfileForm(request.POST,instance=request.user.patient_profile)
         if form.is_valid():
             form.save()
-            return redirect("home")
+            return redirect("patient_dashboard")
     else:
         form = PatientProfileForm(instance=request.user.patient_profile)
 
@@ -56,3 +57,29 @@ def complete_hospital_profile(request):
 
     return render(request, "accounts/complete_hospital_profile.html", {"form": form})
 
+
+def custom_login(request):
+    if request.method=="POST":
+        form = LoginForm(request,data=request.POST)
+        if form.is_valid():
+            username=form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+
+            user=authenticate(request,username=username,password=password)
+
+            if user is not None:
+                login(request,user)
+
+                if user.user_type=="Patient":
+                    return redirect("patient_dashboard")
+                elif user.user_type=="Hospital":
+                    return redirect("hospital_dashboard")
+                else:
+                    return redirect("admin:index")
+            else:
+                messages.error(request,"Invalid username or passowrd.")
+        else:
+            messages.error(request,"Invalid form submission")
+    else:
+        form = LoginForm()
+    return render(request,"accounts/login.html",{"form":form})

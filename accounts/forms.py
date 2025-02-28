@@ -6,14 +6,14 @@ class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Enter hospital email',
+            'placeholder': 'Enter email',
         })
     )
 
     username = forms.CharField(
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Enter hospital username',
+            'placeholder': 'Enter  username',
         })
     )
 
