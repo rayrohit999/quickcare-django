@@ -3,23 +3,15 @@
 
 <div class="container-fluid">
     <div class="row">
-        <!-- Sidebar -->
-        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar vh-100 shadow">
+        <!-- Sidebar for Desktop -->
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar vh-100 shadow position-fixed">
             <div class="position-sticky pt-3">
                 <h4 class="text-center">Patient Dashboard</h4>
                 <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">🏥 Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">📅 My Appointments</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">📝 Medical History</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">⚙️ Profile & Settings</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link active" href="#">🏥 Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">📅 My Appointments</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">📝 Medical History</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">⚙️ Profile & Settings</a></li>
                     <li class="nav-item">
                         <form action="{% url 'logout' %}" method="post">
                             {% csrf_token %}
@@ -30,8 +22,35 @@
             </div>
         </nav>
 
+        <!-- Mobile Sidebar (Offcanvas) -->
+        <div class="offcanvas offcanvas-start bg-light" tabindex="-1" id="mobileSidebar">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title">Patient Dashboard</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a class="nav-link active" href="#">🏥 Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">📅 My Appointments</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">📝 Medical History</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">⚙️ Profile & Settings</a></li>
+                    <li class="nav-item">
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger w-100 mt-2">🚪 Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
         <!-- Main Content -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <!-- Mobile Menu Button -->
+            <button class="btn btn-outline-primary d-md-none my-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
+                ☰ Menu
+            </button>
+
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h2>Welcome, {{ user.username }}!</h2>
                 <p class="text-muted">Stay updated with your healthcare information</p>
@@ -39,7 +58,7 @@
 
             <!-- Quick Stats -->
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-12 col-sm-6 col-lg-4 mb-3">
                     <div class="card text-white bg-primary shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title">Upcoming Appointments</h5>
@@ -47,7 +66,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-12 col-sm-6 col-lg-4 mb-3">
                     <div class="card text-white bg-success shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title">Completed Appointments</h5>
@@ -55,7 +74,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-12 col-sm-6 col-lg-4 mb-3">
                     <div class="card text-white bg-warning shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title">Medical Records</h5>
@@ -72,28 +91,30 @@
                 </div>
                 <div class="card-body">
                     {% if upcoming_appointments %}
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Doctor</th>
-                                    <th>Hospital</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for appointment in upcoming_appointments %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
                                     <tr>
-                                        <td>{{ appointment.doctor_name }}</td>
-                                        <td>{{ appointment.hospital_name }}</td>
-                                        <td>{{ appointment.date }}</td>
-                                        <td>{{ appointment.time }}</td>
-                                        <td><span class="badge bg-info">{{ appointment.status }}</span></td>
+                                        <th>Doctor</th>
+                                        <th>Hospital</th>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                        <th>Status</th>
                                     </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {% for appointment in upcoming_appointments %}
+                                        <tr>
+                                            <td>{{ appointment.doctor_name }}</td>
+                                            <td>{{ appointment.hospital_name }}</td>
+                                            <td>{{ appointment.date }}</td>
+                                            <td>{{ appointment.time }}</td>
+                                            <td><span class="badge bg-info">{{ appointment.status }}</span></td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     {% else %}
                         <p class="text-muted">No upcoming appointments.</p>
                     {% endif %}
@@ -109,7 +130,10 @@
                     {% if medical_records %}
                         <ul class="list-group">
                             {% for record in medical_records %}
-                                <li class="list-group-item">{{ record.details }} <span class="badge bg-secondary float-end">{{ record.date }}</span></li>
+                                <li class="list-group-item">
+                                    {{ record.details }}
+                                    <span class="badge bg-secondary float-end">{{ record.date }}</span>
+                                </li>
                             {% endfor %}
                         </ul>
                     {% else %}
@@ -121,14 +145,13 @@
     </div>
 </div>
 
-<!-- Add Bootstrap CSS -->
+<!-- Custom CSS for Responsiveness -->
 <style>
-    .sidebar {
-        height: 100vh;
-        position: fixed;
-        left: 0;
-        top: 0;
-        padding-top: 20px;
+    /* Sidebar should be hidden on mobile */
+    @media (max-width: 767px) {
+        #sidebarMenu {
+            display: none;
+        }
     }
     .card {
         border-radius: 10px;
