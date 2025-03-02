@@ -9,7 +9,7 @@ from .models import Doctor,Appointment
 def hospital_dashboard(request):
     hospital=HospitalProfile.objects.get(user=request.user)
     doctors = Doctor.objects.filter(hospital=hospital)
-    appointments = Appointment.objects.filter(hospital=hospital)
+    appointments = Appointment.objects.filter(hospital=hospital,status="Upcoming")
 
     context={
         "hospital":hospital,
@@ -64,7 +64,7 @@ def add_doctors(request):
 
     return render(request, "hospitals/add_doctor.html")
 
-
+@login_required
 def edit_doctor(request, doctor_id):
     doctor = get_object_or_404(Doctor,id=doctor_id)
     if request.method == "POST":
@@ -90,7 +90,7 @@ def edit_doctor(request, doctor_id):
     
     return render(request, "hospitals/edit_doctor.html", {"doctor": doctor})
 
-
+@login_required
 def delete_doctor(request, doctor_id):
     doctor = get_object_or_404(Doctor,id=doctor_id)
     doctor.delete()
