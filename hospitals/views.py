@@ -96,4 +96,10 @@ def delete_doctor(request, doctor_id):
     doctor.delete()
     return redirect("list_doctors")
 
+#hospital listing
+@login_required
+def list_hospitals(request):
+    hospitals = HospitalProfile.objects.all()
+    return render(request, "hospitals/list_hospitals.html",{"hospitals":hospitals})
+
 

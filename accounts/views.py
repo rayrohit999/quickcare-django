@@ -71,7 +71,7 @@ def custom_login(request):
                 login(request,user)
 
                 if user.user_type=="Patient":
-                    return redirect("patient_dashboard")
+                    return redirect("home")
                 elif user.user_type=="Hospital":
                     return redirect("hospital_dashboard")
                 else:

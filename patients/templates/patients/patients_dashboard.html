@@ -52,7 +52,7 @@
             </button>
 
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h2>Welcome, {{ user.username }}!</h2>
+                <h2>Welcome, {{ user.first_name}} {{user.last_name}}!</h2>
                 <p class="text-muted">Stay updated with your healthcare information</p>
             </div>
 
@@ -105,8 +105,8 @@
                                 <tbody>
                                     {% for appointment in upcoming_appointments %}
                                         <tr>
-                                            <td>{{ appointment.doctor_name }}</td>
-                                            <td>{{ appointment.hospital_name }}</td>
+                                            <td>{{ appointment.doctor }}</td>
+                                            <td>{{ appointment.hospital.hospital_name }}</td>
                                             <td>{{ appointment.date }}</td>
                                             <td>{{ appointment.time }}</td>
                                             <td><span class="badge bg-info">{{ appointment.status }}</span></td>

@@ -1,0 +1,37 @@
+{% extends "home/base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">List of Hospitals</h2>
+
+    <div class="row">
+        {% for hospital in hospitals %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h5 class="card-title">{{ hospital.hospital_name }}</h5>
+                    <p class="card-text"><strong>Reg. No:</strong> {{ hospital.registration_number }}</p>
+                    <p class="card-text"><strong>Phone:</strong> {{ hospital.phone_number|default:"N/A" }}</p>
+                    <p class="card-text"><strong>Address:</strong> {{ hospital.address }}, {{ hospital.city }}, {{ hospital.state }} - {{ hospital.zip_code }}</p>
+                    {% if hospital.specialization %}
+                        <p class="card-text"><strong>Specialization:</strong> {{ hospital.specialization }}</p>
+                    {% endif %}
+                    <p class="card-text">
+                        <strong>Emergency Services:</strong>
+                        {% if hospital.emergency_services %}
+                            <span class="badge bg-success">Available</span>
+                        {% else %}
+                            <span class="badge bg-danger">Not Available</span>
+                        {% endif %}
+                    </p>
+                    <a href="{% url 'book_appointment' hospital.id %}" class="btn btn-primary w-100">Book Appointment</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">No hospitals found.</p>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

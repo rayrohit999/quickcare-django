@@ -137,7 +137,7 @@
                                 <tbody>
                                     {% for appointment in appointments %}
                                         <tr>
-                                            <td>{{ appointment.patient.username }}</td>
+                                            <td>{{ appointment.patient.first_name }} {{appointment.patient.last_name}}</td>
                                             <td>Dr. {{ appointment.doctor.name }}</td>
                                             <td>{{ appointment.date }}</td>
                                             <td>{{ appointment.time }}</td>

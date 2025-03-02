@@ -1,0 +1,62 @@
+{% extends "home/base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Book an Appointment</h2>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <!-- Display Form Errors -->
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                <strong>Error:</strong> Please correct the highlighted fields.
+                            </div>
+                        {% endif %}
+
+                        <!-- Hospital Name (Hidden Field) -->
+                        <input type="hidden" name="hospital" value="{{ hospital.id }}">
+
+                        <!-- Patient Name (Readonly) -->
+                        <div class="mb-3">
+                            <label class="form-label">Patient Name</label>
+                            <input type="text" class="form-control" value="{{ request.user.first_name }} {{ request.user.last_name }}" readonly>
+                        </div>
+
+                        <!-- Doctor Selection -->
+                        <div class="mb-3">
+                            <label for="doctor" class="form-label">Select Doctor</label>
+                            <select name="doctor" id="doctor" class="form-control" required>
+                                <option value="" disabled selected>Select a Doctor</option>
+                                {% for doctor in doctors %}
+                                    <option value="{{ doctor.id }}">{{ doctor.name }} - {{ doctor.specialization }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Appointment Date -->
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Select Date</label>
+                            <input type="date" name="date" id="date" class="form-control" required>
+                        </div>
+
+                        <!-- Appointment Time -->
+                        <div class="mb-3">
+                            <label for="time" class="form-label">Select Time</label>
+                            <input type="time" name="time" id="time" class="form-control" required>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary w-100">Book Appointment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

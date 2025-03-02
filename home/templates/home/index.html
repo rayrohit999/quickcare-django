@@ -13,8 +13,16 @@
         <div class="container">
             <h1>Seamless Hospital Appointment Booking</h1>
             <p class="lead">Book doctor appointments with ease. Get instant confirmations.</p>
+            {% if user.is_authenticated %}
+            {% if user.user_type == "Patient" %}
+            <a href="{% url 'list_hospital' %}" class="btn btn-light me-2">Book Appointment</a>
+            {% elif user.user_type == "Hospital"%}
+            <a href="{% url 'hospital_dashboard' %}" class="btn btn-light me-2">Go to Dashboard</a>
+            {% endif %}
+            {% else %}
             <a href="{% url 'register_hospital' %}" class="btn btn-light me-2">Register as Hospital</a>
             <a href="{% url 'register_patient' %}" class="btn btn-outline-light">Register as Patient</a>
+            {% endif %}
         </div>
     </header>
 
