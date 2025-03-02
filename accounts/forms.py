@@ -35,10 +35,21 @@ class CustomUserCreationForm(UserCreationForm):
         fields=['username','email','password1','password2']
 
 class PatientProfileForm(forms.ModelForm):
+    first_name = forms.CharField(
+        max_length=50,
+        required=True,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter first name'})
+    )
+    last_name = forms.CharField(
+        max_length=50,
+        required=True,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter last name'})
+    )
+
     class Meta:
         model = PatientProfile
         fields = [
-            'date_of_birth', 'gender', 'phone_number', 'address',
+            'first_name', 'last_name', 'date_of_birth', 'gender', 'phone_number', 'address',
             'blood_group', 'medical_history', 'emergency_contact'
         ]
         widgets = {
@@ -52,6 +63,16 @@ class PatientProfileForm(forms.ModelForm):
             'medical_history': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Enter any medical history', 'rows': 3}),
             'emergency_contact': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter emergency contact'}),
         }
+
+    def save(self, commit=True):
+        profile = super().save(commit=False)
+        profile.user.first_name = self.cleaned_data['first_name']
+        profile.user.last_name = self.cleaned_data['last_name']
+        if commit:
+            profile.user.save()
+            profile.save()
+        return profile
+
 
 class HospitalProfileForm(forms.ModelForm):
     class Meta:
