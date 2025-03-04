@@ -103,3 +103,7 @@ def list_hospitals(request):
     return render(request, "hospitals/list_hospitals.html",{"hospitals":hospitals})
 
 
+@login_required
+def hospital_profile(request):
+    hospital = HospitalProfile.objects.get(user=request.user)
+    return render(request,"hospitals/hospital_profile.html",{"hospital":hospital})

@@ -1,0 +1,36 @@
+{% extends "home/base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-success text-white">
+            <h4 class="text-center">🩺 Patient Profile</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- Profile Picture (If applicable) -->
+                {% comment %} <div class="col-md-4 text-center">
+                    <img src="{{ patient.profile_picture.url }}" alt="Patient Picture" class="img-fluid rounded-circle shadow" width="150" height="150">
+                </div> {% endcomment %}
+                <!-- Patient Details -->
+                <div class="col-md-8">
+                    <h5><strong>Name:</strong> {{ patient.first_name }} {{patient.last_name}}</h5>
+                    <p><strong>Age:</strong> {{ age }}</p>
+                    <p><strong>Gender:</strong> {{ patient.gender }}</p>
+                    <p><strong>Blood Group:</strong> {{ patient.blood_group }}</p>
+                    <p><strong>Date of Birth:</strong> {{ patient.date_of_birth }}</p>
+                    <p><strong>Address:</strong> {{ patient.address }}</p>
+                    <p><strong>Phone:</strong> {{ patient.phone_number }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Medical History:</strong> {{ patient.medical_history }}</p>
+                    {% comment %} <p><strong>Registered On:</strong> {{ patient.created_at|date:"F d, Y" }}</p> {% endcomment %}
+                    
+                    <!-- Edit Button -->
+                    <a href="{% url 'complete_patient_profile' %}" class="btn btn-warning mt-3">✏️ Edit Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

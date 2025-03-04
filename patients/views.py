@@ -2,7 +2,8 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import MedicalRecord  # Assuming these models exist
 from hospitals.models import Appointment,Doctor
-from accounts.models import HospitalProfile
+from accounts.models import HospitalProfile,PatientProfile
+from datetime import date
 @login_required
 def patient_dashboard(request):
     upcoming_appointments = Appointment.objects.filter(patient=request.user, status="Upcoming")
@@ -35,3 +36,13 @@ def book_appointment(request,hospital_id):
 
 
     return render(request,"patients/book_appointment.html",{"doctors":doctors})
+
+@login_required
+def patient_profile(request):
+    patient = PatientProfile.objects.get(user=request.user)
+    def calculate_age(dob):
+        today = date.today()
+        return today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+
+    patient_age = calculate_age(patient.date_of_birth) if patient.date_of_birth else "N/A"
+    return render(request,"patients/patient_profile.html",{"patient":patient,"age":patient_age})

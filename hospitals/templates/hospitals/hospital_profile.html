@@ -1,0 +1,33 @@
+{% extends "home/base.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h4 class="text-center">🏥 Hospital Profile</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- Profile Picture (If applicable) -->
+                {% comment %} <div class="col-md-4 text-center">
+                    <img src="{{ hospital.logo.url }}" alt="Hospital Logo" class="img-fluid rounded-circle shadow" width="150" height="150">
+                </div> {% endcomment %}
+                <!-- Hospital Details -->
+                <div class="col-md-8">
+                    <h5><strong>Name:</strong> {{ hospital.hospital_name }}</h5>
+                    <p><strong>Address:</strong> {{ hospital.address }}</p>
+                    <p><strong>Phone:</strong> {{ hospital.phone_number }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Specialties:</strong> {{ hospital.specialization }}</p>
+                    {% comment %} <p><strong>Registered On:</strong> {{ hospital.created_at|date:"F d, Y" }}</p> {% endcomment %}
+                    
+                    <!-- Edit Button -->
+                    <a href="{% url 'complete_hospital_profile' %}" class="btn btn-warning mt-3">✏️ Edit Profile</a>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
