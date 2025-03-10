@@ -40,7 +40,7 @@ def complete_patient_profile(request):
         form= PatientProfileForm(request.POST,instance=request.user.patient_profile)
         if form.is_valid():
             form.save()
-            return redirect("patient_dashboard")
+            return redirect("home")
     else:
         form = PatientProfileForm(instance=request.user.patient_profile)
 

@@ -1,7 +1,7 @@
 {% extends "home/base.html" %}
 {% block content %}
 
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card shadow-lg">
@@ -41,7 +41,7 @@
                         <!-- Appointment Date -->
                         <div class="mb-3">
                             <label for="date" class="form-label">Select Date</label>
-                            <input type="date" name="date" id="date" class="form-control" required>
+                            <input type="date" name="date" id="date" class="form-control" min="" required>
                         </div>
 
                         <!-- Appointment Time -->
@@ -58,5 +58,12 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let dateInput = document.getElementById("date");
+        let today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
+        dateInput.setAttribute("min", today); // Set min attribute dynamically
+    });
+</script>
 
 {% endblock %}
